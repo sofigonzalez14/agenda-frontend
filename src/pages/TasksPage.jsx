@@ -7,7 +7,6 @@ function TasksPage({ user, onLogout, goToCategories }) {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // estados del formulario de tarea
   const [newTitle, setNewTitle] = useState('');
   const [newDescription, setNewDescription] = useState('');
   const [newDueDate, setNewDueDate] = useState('');
@@ -18,7 +17,6 @@ function TasksPage({ user, onLogout, goToCategories }) {
   const [editingTaskId, setEditingTaskId] = useState(null);
   const [showForm, setShowForm] = useState(false);
 
-  // categorías
   const [categories, setCategories] = useState([]);
 
   async function loadTasks() {
@@ -77,7 +75,7 @@ function TasksPage({ user, onLogout, goToCategories }) {
       }
 
       resetForm();
-      setShowForm(false); // cerramos la tarjeta al guardar
+      setShowForm(false); 
       loadTasks();
     } catch (error) {
       console.error('Error al guardar tarea', error);
@@ -97,7 +95,7 @@ function TasksPage({ user, onLogout, goToCategories }) {
     setNewPriority(task.priority || 'media');
     setNewDueDate(task.due_date ? task.due_date.slice(0, 10) : '');
     setSelectedCategoryId(task.category_id || '');
-    setShowForm(true); // abrimos la tarjeta en modo edición
+    setShowForm(true); 
   }
 
   async function handleDeleteTask(id) {
@@ -106,7 +104,6 @@ function TasksPage({ user, onLogout, goToCategories }) {
 
     try {
       await deleteTask(id);
-      // si se estaba editando esta tarea, reseteamos
       if (editingTaskId === id) {
         resetForm();
         setShowForm(false);
@@ -152,7 +149,6 @@ function TasksPage({ user, onLogout, goToCategories }) {
         </header>
 
         <div className="tasks-main">
-          {/* Tarjeta flotante para crear / editar tarea */}
           {showForm && (
             <section className="tasks-form-float">
               <div className="tasks-form-header">
@@ -267,8 +263,6 @@ function TasksPage({ user, onLogout, goToCategories }) {
               </form>
             </section>
           )}
-
-          {/* Sección de listado de tareas (post-its) */}
           <section className="tasks-list-section">
             <h2 className="tasks-section-title">Mis tareas</h2>
             {loading ? (

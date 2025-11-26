@@ -6,7 +6,7 @@ import CategoriesPage from './pages/CategoriesPage';
 
 function App() {
   const [user, setUser] = useState(null);
-  const [screen, setScreen] = useState('login'); // 'login' | 'register' | 'tasks' | 'categories'
+  const [screen, setScreen] = useState('login'); 
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -32,7 +32,6 @@ function App() {
     setScreen('login');
   }
 
-  // Si no hay usuario logueado → mostrar login o registro
   if (!user) {
     if (screen === 'register') {
       return (
@@ -42,7 +41,6 @@ function App() {
       );
     }
 
-    // screen === 'login'
     return (
       <LoginPage
         onLogin={handleLogin}
@@ -51,7 +49,6 @@ function App() {
     );
   }
 
-  // Si hay usuario logueado → tareas o categorías
   if (screen === 'categories') {
     return (
       <CategoriesPage
@@ -59,8 +56,6 @@ function App() {
       />
     );
   }
-
-  // screen === 'tasks'
   return (
     <TasksPage
       user={user}

@@ -86,8 +86,18 @@
   gap: 8px;
   margin-top: 4px;
 }
+.cats-error {
+  color: #b91c1c;
+  font-size: 13px;
+  margin-top: 4px;
+}
 
-/* Lista de categorías como post-its */
+.cats-success {
+  color: #15803d;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
 
 .cats-list {
   list-style: none;
@@ -105,12 +115,12 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  background-color: #fef9c3;      /* amarillo post-it */
+  background-color: #fef9c3;      
   box-shadow: 0 8px 16px rgba(15, 23, 42, 0.15);
   border: 1px solid #fde68a;
 }
 
-/* "chinche" tipo post-it */
+
 .cats-item::before {
   content: '';
   width: 10px;
@@ -133,7 +143,7 @@
   justify-content: flex-end;
 }
 
-/* 📱 Responsive */
+
 
 @media (max-width: 640px) {
   .cats-container {
@@ -149,7 +159,7 @@
   }
 
   .cats-list {
-    grid-template-columns: 1fr;  /* una categoría por fila */
+    grid-template-columns: 1fr; 
   }
 
   .cats-item {
