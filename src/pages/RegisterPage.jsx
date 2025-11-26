@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { registerUser } from '../api/auth';
-import '../styles/LoginPage.css'; 
+import '../styles/loginPage.css'; 
 
 function RegisterPage({ onGoToLogin }) {
   const [name, setName] = useState('');
