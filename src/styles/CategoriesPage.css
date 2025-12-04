@@ -143,6 +143,25 @@
   justify-content: flex-end;
 }
 
+.cats-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cats-item-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cats-color-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  border: 1px solid #ccc;
+}
 
 
 @media (max-width: 640px) {

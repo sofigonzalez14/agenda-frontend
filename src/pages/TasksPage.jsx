@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { getTasks, createTask, deleteTask, updateTask } from '../api/tasks';
 import { getCategories } from '../api/categories';
+import { getColorForCategory } from '../utils/categoryColor';
 import '../styles/taskPage.css';
 
 function TasksPage({ user, onLogout, goToCategories }) {
@@ -18,6 +19,9 @@ function TasksPage({ user, onLogout, goToCategories }) {
   const [showForm, setShowForm] = useState(false);
 
   const [categories, setCategories] = useState([]);
+
+  // NUEVO: categoría seleccionada para FILTRAR la lista
+  const [filterCategoryId, setFilterCategoryId] = useState('all');
 
   async function loadTasks() {
     try {
@@ -75,7 +79,7 @@ function TasksPage({ user, onLogout, goToCategories }) {
       }
 
       resetForm();
-      setShowForm(false); 
+      setShowForm(false);
       loadTasks();
     } catch (error) {
       console.error('Error al guardar tarea', error);
@@ -95,7 +99,7 @@ function TasksPage({ user, onLogout, goToCategories }) {
     setNewPriority(task.priority || 'media');
     setNewDueDate(task.due_date ? task.due_date.slice(0, 10) : '');
     setSelectedCategoryId(task.category_id || '');
-    setShowForm(true); 
+    setShowForm(true);
   }
 
   async function handleDeleteTask(id) {
@@ -118,6 +122,17 @@ function TasksPage({ user, onLogout, goToCategories }) {
     const cat = categories.find((c) => c.id === categoryId);
     return cat ? cat.name : null;
   }
+
+  // NUEVO: tareas filtradas según la categoría seleccionada
+  const filteredTasks = useMemo(() => {
+    if (filterCategoryId === 'all') return tasks;
+
+    return tasks.filter(
+      (task) =>
+        task.category_id !== null &&
+        String(task.category_id) === String(filterCategoryId)
+    );
+  }, [tasks, filterCategoryId]);
 
   return (
     <div className="tasks-outer">
@@ -263,23 +278,64 @@ function TasksPage({ user, onLogout, goToCategories }) {
               </form>
             </section>
           )}
+
           <section className="tasks-list-section">
             <h2 className="tasks-section-title">Mis tareas</h2>
+            <div className="tasks-filter-row">
+              <button
+                type="button"
+                className={`tasks-filter-chip ${
+                  filterCategoryId === 'all' ? 'active' : ''
+                }`}
+                onClick={() => setFilterCategoryId('all')}
+              >
+                Todas
+              </button>
+
+              {categories.map((cat) => {
+                const color = getColorForCategory(cat.id);
+                return (
+                  <button
+                    key={cat.id}
+                    type="button"
+                    className={`tasks-filter-chip ${
+                      String(filterCategoryId) === String(cat.id) ? 'active' : ''
+                    }`}
+                    onClick={() => setFilterCategoryId(cat.id)}
+                    style={{ borderBottom: `3px solid ${color}` }}
+                  >
+                    {cat.name}
+                  </button>
+                );
+              })}
+            </div>
+
             {loading ? (
               <p>Cargando tareas...</p>
             ) : tasks.length === 0 ? (
               <p>No hay tareas todavía.</p>
             ) : (
               <ul className="tasks-list">
-                {tasks.map((task) => {
+                {filteredTasks.map((task) => {
                   const catName = getCategoryName(task.category_id);
+                  const color = task.category_id
+                    ? getColorForCategory(task.category_id)
+                    : '#ddd';
+
                   return (
                     <li key={task.id} className="tasks-item">
-                      <div className="tasks-item-main">
-                        <div className="tasks-item-pin" />
+                      <div
+                        className="tasks-item-main"
+                        style={{ borderLeft: `6px solid ${color}` }}
+                      >
+                        <div
+                          className="tasks-item-pin"
+                          style={{ backgroundColor: color }}
+                        />
                         <strong className="tasks-item-title">
                           {task.title}
                         </strong>
+
                         {task.description && (
                           <p className="tasks-item-description">
                             {task.description}
@@ -294,7 +350,10 @@ function TasksPage({ user, onLogout, goToCategories }) {
                             Prioridad: {task.priority}
                           </span>
                           {catName && (
-                            <span className="tasks-chip">
+                            <span
+                              className="tasks-chip tasks-chip-category"
+                              style={{ backgroundColor: color }}
+                            >
                               Categoría: {catName}
                             </span>
                           )}
@@ -335,8 +394,3 @@ function TasksPage({ user, onLogout, goToCategories }) {
 }
 
 export default TasksPage;
-
-
-
-
-

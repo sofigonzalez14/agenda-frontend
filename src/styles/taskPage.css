@@ -280,6 +280,30 @@
   gap: 8px;
   justify-content: flex-end;
 }
+.tasks-filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0 16px;
+}
+
+.tasks-filter-chip {
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid #ccc;
+  background-color: #f5f5f5;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.tasks-filter-chip.active {
+  font-weight: 600;
+  box-shadow: 0 0 0 2px #3333;
+}
+
+.tasks-chip-category {
+  font-weight: 600;
+}
 
 
 @media (max-width: 768px) {

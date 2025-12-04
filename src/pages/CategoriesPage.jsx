@@ -5,6 +5,7 @@ import {
   updateCategory,
   deleteCategory,
 } from '../api/categories';
+import { getColorForCategory } from '../utils/categoryColors';
 import '../styles/CategoriesPage.css';
 
 function CategoriesPage({ goBack }) {
@@ -14,8 +15,8 @@ function CategoriesPage({ goBack }) {
   const [name, setName] = useState('');
   const [editingId, setEditingId] = useState(null);
 
-  const [error, setError] = useState('');   
-  const [success, setSuccess] = useState(''); 
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   async function loadCategories() {
     try {
@@ -48,11 +49,9 @@ function CategoriesPage({ goBack }) {
 
     try {
       if (editingId) {
-       
         await updateCategory(editingId, name);
         setSuccess('Categoría actualizada correctamente.');
       } else {
-        // crear categoría nueva
         await createCategory(name);
         setSuccess('Categoría creada correctamente.');
       }
@@ -147,7 +146,7 @@ function CategoriesPage({ goBack }) {
           </form>
         </section>
 
-    
+        {/* Listado */}
         <section>
           {loading ? (
             <p>Cargando categorías...</p>
@@ -155,28 +154,38 @@ function CategoriesPage({ goBack }) {
             <p>No tenés categorías todavía.</p>
           ) : (
             <ul className="cats-list">
-              {categories.map((cat) => (
-                <li key={cat.id} className="cats-item">
-                  <span>{cat.name}</span>
+              {categories.map((cat) => {
+                const color = getColorForCategory(cat.id);
 
-                  <div className="cats-item-buttons">
-                    <button
-                      className="btn-small"
-                      type="button"
-                      onClick={() => handleEdit(cat)}
-                    >
-                      Editar
-                    </button>
-                    <button
-                      className="btn-delete"
-                      type="button"
-                      onClick={() => handleDelete(cat.id)}
-                    >
-                      Eliminar
-                    </button>
-                  </div>
-                </li>
-              ))}
+                return (
+                  <li key={cat.id} className="cats-item">
+                    <div className="cats-item-left">
+                      <span
+                        className="cats-color-dot"
+                        style={{ backgroundColor: color }}
+                      />
+                      <span>{cat.name}</span>
+                    </div>
+
+                    <div className="cats-item-buttons">
+                      <button
+                        className="btn-small"
+                        type="button"
+                        onClick={() => handleEdit(cat)}
+                      >
+                        Editar
+                      </button>
+                      <button
+                        className="btn-delete"
+                        type="button"
+                        onClick={() => handleDelete(cat.id)}
+                      >
+                        Eliminar
+                      </button>
+                    </div>
+                  </li>
+                );
+              })}
             </ul>
           )}
         </section>
@@ -186,6 +195,3 @@ function CategoriesPage({ goBack }) {
 }
 
 export default CategoriesPage;
-
-
-
