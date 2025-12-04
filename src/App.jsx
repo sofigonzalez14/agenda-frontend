@@ -3,10 +3,18 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import TasksPage from './pages/TasksPage';
 import CategoriesPage from './pages/CategoriesPage';
+import VerifyAccountPage from './pages/VerifyAccountPage'; 
 
 function App() {
   const [user, setUser] = useState(null);
   const [screen, setScreen] = useState('login'); 
+
+  const params = new URLSearchParams(window.location.search);
+  const verificationToken = params.get('token');
+
+  if (verificationToken) {
+    return <VerifyAccountPage />;
+  }
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -56,6 +64,7 @@ function App() {
       />
     );
   }
+
   return (
     <TasksPage
       user={user}

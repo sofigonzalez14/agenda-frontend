@@ -13,3 +13,10 @@ export async function registerUser(name, email, password) {
   });
   return data; 
 }
+
+export async function verifyAccount(token) {
+  const { data } = await api.get('/api/auth/verify', {
+    params: { token },
+  });
+  return data;
+}
