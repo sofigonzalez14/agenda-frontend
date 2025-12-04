@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from 'react';
 import { getTasks, createTask, deleteTask, updateTask } from '../api/tasks';
 import { getCategories } from '../api/categories';
-import { getColorForCategory } from '../utils/categoryColor';
+import { getColorForCategory } from '../api/categoryColor';
 import '../styles/taskPage.css';
 
 function TasksPage({ user, onLogout, goToCategories }) {

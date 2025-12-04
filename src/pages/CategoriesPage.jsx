@@ -5,7 +5,7 @@ import {
   updateCategory,
   deleteCategory,
 } from '../api/categories';
-import { getColorForCategory } from '../utils/categoryColors';
+import { getColorForCategory } from '../api/categoryColor';
 import '../styles/CategoriesPage.css';
 
 function CategoriesPage({ goBack }) {
