@@ -302,7 +302,10 @@ function TasksPage({ user, onLogout, goToCategories }) {
                       String(filterCategoryId) === String(cat.id) ? 'active' : ''
                     }`}
                     onClick={() => setFilterCategoryId(cat.id)}
-                    style={{ borderBottom: `3px solid ${color}` }}
+                    style={{ 
+                      borderBottom: `3px solid ${color}`,
+                      backgroundColor: String(filterCategoryId) === String(cat.id) ? `${color}15` : 'transparent' 
+                    }}
                   >
                     {cat.name}
                   </button>
