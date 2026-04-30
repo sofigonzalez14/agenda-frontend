@@ -2,7 +2,7 @@ const PALETTE = [
   '#ffadad',
   '#ffd6a5',
   '#fdffb6',
-  '#caffbf',
+  '#62a255',
   '#9bf6ff',
   '#a0c4ff',
   '#bdb2ff',

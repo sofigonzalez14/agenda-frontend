@@ -55,7 +55,6 @@ function CategoriesPage({ goBack }) {
         await createCategory(name);
         setSuccess('Categoría creada correctamente.');
       }
-
       resetForm();
       loadCategories();
     } catch (err) {
@@ -77,15 +76,12 @@ function CategoriesPage({ goBack }) {
   async function handleDelete(id) {
     const seguro = confirm('¿Eliminar esta categoría?');
     if (!seguro) return;
-
     setError('');
     setSuccess('');
 
     try {
       await deleteCategory(id);
-      if (editingId === id) {
-        resetForm();
-      }
+      if (editingId === id) resetForm();
       loadCategories();
     } catch (err) {
       console.error('Error al eliminar categoría', err);
@@ -96,6 +92,8 @@ function CategoriesPage({ goBack }) {
   return (
     <div className="cats-outer">
       <div className="cats-container">
+
+        {/* ── Header ── */}
         <header className="cats-header">
           <div>
             <h1 className="cats-title">Categorías</h1>
@@ -103,17 +101,21 @@ function CategoriesPage({ goBack }) {
               Organizá tus tareas en grupos como Estudio, Trabajo, Personal...
             </p>
           </div>
-
           <button className="btn-outline" onClick={goBack}>
-            Volver a tareas
+            ← Volver a tareas
           </button>
         </header>
 
-        {/* Formulario */}
+        {/* ── Formulario ── */}
         <section className="cats-form-section">
-          <h2 className="cats-section-title">
-            {editingId ? 'Editar categoría' : 'Nueva categoría'}
-          </h2>
+          <div className="cats-form-top">
+            <div className="cats-form-eyebrow">
+              {editingId ? 'Editando' : 'Nueva categoría'}
+            </div>
+            <h2 className="cats-section-title">
+              {editingId ? '¿Qué nombre le ponemos?' : '¿Cómo se llama?'}
+            </h2>
+          </div>
 
           <form onSubmit={handleSubmit} className="cats-form">
             <label className="cats-label">
@@ -122,6 +124,7 @@ function CategoriesPage({ goBack }) {
                 className="cats-input"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                placeholder="Ej: Trabajo, Personal, Estudio..."
                 required
               />
             </label>
@@ -131,14 +134,10 @@ function CategoriesPage({ goBack }) {
 
             <div className="cats-actions">
               <button type="submit" className="btn-primary">
-                {editingId ? 'Guardar cambios' : 'Crear categoría'}
+                {editingId ? 'Guardar cambios →' : 'Crear categoría →'}
               </button>
               {editingId && (
-                <button
-                  type="button"
-                  className="btn-ghost"
-                  onClick={resetForm}
-                >
+                <button type="button" className="btn-ghost" onClick={resetForm}>
                   Cancelar
                 </button>
               )}
@@ -146,23 +145,37 @@ function CategoriesPage({ goBack }) {
           </form>
         </section>
 
-        {/* Listado */}
+        {/* ── Listado ── */}
         <section>
+          {!loading && categories.length > 0 && (
+            <div className="cats-list-eyebrow">
+              {categories.length}{' '}
+              {categories.length === 1 ? 'categoría' : 'categorías'}
+            </div>
+          )}
+
           {loading ? (
-            <p>Cargando categorías...</p>
+            <p style={{ color: '#3a3a50', fontSize: '13px' }}>
+              Cargando categorías...
+            </p>
           ) : categories.length === 0 ? (
-            <p>No tenés categorías todavía.</p>
+            <p style={{ color: '#3a3a50', fontSize: '13px' }}>
+              No tenés categorías todavía.
+            </p>
           ) : (
             <ul className="cats-list">
               {categories.map((cat) => {
                 const color = getColorForCategory(cat.id);
-
                 return (
-                  <li key={cat.id} className="cats-item">
+                  <li
+                    key={cat.id}
+                    className="cats-item"
+                    style={{ borderLeft: `3px solid ${color}` }}
+                  >
                     <div className="cats-item-left">
                       <span
                         className="cats-color-dot"
-                        style={{ backgroundColor: color }}
+                        style={{ backgroundColor: color, color }}
                       />
                       <span>{cat.name}</span>
                     </div>
@@ -189,6 +202,7 @@ function CategoriesPage({ goBack }) {
             </ul>
           )}
         </section>
+
       </div>
     </div>
   );

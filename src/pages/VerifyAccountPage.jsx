@@ -2,8 +2,27 @@ import { useEffect, useState } from 'react';
 import { verifyAccount } from '../api/auth';
 import '../styles/VerifyAccountPage.css';
 
+const STATES = {
+  loading: {
+    eyebrow: 'Verificando',
+    title: 'Estamos verificando tu cuenta...',
+    text: 'Por favor esperá un momento.',
+    iconClass: 'is-loading',
+  },
+  success: {
+    eyebrow: 'Todo listo',
+    title: '¡Cuenta verificada!',
+    iconClass: 'is-success',
+  },
+  error: {
+    eyebrow: 'Algo salió mal',
+    title: 'No se pudo verificar la cuenta',
+    iconClass: 'is-error',
+  },
+};
+
 function VerifyAccountPage() {
-  const [status, setStatus] = useState('loading'); // 'loading' | 'success' | 'error'
+  const [status, setStatus] = useState('loading');
   const [message, setMessage] = useState('');
 
   useEffect(() => {
@@ -18,12 +37,11 @@ function VerifyAccountPage() {
       }
 
       try {
-        setStatus('loading');
         const data = await verifyAccount(token);
         setStatus('success');
         setMessage(
           data?.message ||
-            'Tu cuenta fue verificada correctamente. Ya podés iniciar sesión.'
+          'Tu cuenta fue verificada correctamente. Ya podés iniciar sesión.'
         );
       } catch (err) {
         console.error('Error verificando cuenta', err);
@@ -42,42 +60,42 @@ function VerifyAccountPage() {
     window.location.href = '/';
   }
 
+  const state = STATES[status];
+
   return (
     <div className="verify-outer">
-      <div className="verify-card">
-        {status === 'loading' && (
-          <>
-            <div className="verify-icon verify-loading">⏳</div>
-            <h1 className="verify-title">Verificando tu cuenta...</h1>
-            <p className="verify-text">Por favor esperá un momento.</p>
-          </>
-        )}
+      <div className={`verify-card is-${status}`}>
+        <div className="verify-body">
 
-        {status === 'success' && (
-          <>
-            <div className="verify-icon verify-success">✅</div>
-            <h1 className="verify-title">¡Cuenta verificada!</h1>
-            <p className="verify-text">{message}</p>
-            <button className="verify-button" onClick={goToLogin}>
-              Ir al login
-            </button>
-          </>
-        )}
+          {/* ── Icono ── */}
+          <div className={`verify-icon-wrap ${state.iconClass}`}>
+            {status === 'loading' && <div className="verify-spinner" />}
+            {status === 'success' && <span className="verify-icon">✓</span>}
+            {status === 'error' && <span className="verify-icon">✕</span>}
+          </div>
 
-        {status === 'error' && (
-          <>
-            <div className="verify-icon verify-error">❌</div>
-            <h1 className="verify-title">No se pudo verificar la cuenta</h1>
-            <p className="verify-text">{message}</p>
+          {/* ── Textos ── */}
+          <span className={`verify-eyebrow ${state.iconClass}`}>
+            {state.eyebrow}
+          </span>
+
+          <h1 className="verify-title">{state.title}</h1>
+
+          <p className="verify-text">
+            {status === 'loading' ? state.text : message}
+          </p>
+
+          {/* ── Botón (solo en success y error) ── */}
+          {status !== 'loading' && (
             <button className="verify-button" onClick={goToLogin}>
-              Volver al inicio
+              {status === 'success' ? 'Ir al login →' : 'Volver al inicio →'}
             </button>
-          </>
-        )}
+          )}
+
+        </div>
       </div>
     </div>
   );
 }
 
 export default VerifyAccountPage;
-
