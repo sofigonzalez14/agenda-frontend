@@ -99,6 +99,28 @@
   color: var(--text-muted);
 }
 
+/* ─── Toggle de tema (☀️ / 🌙) ───────────────────────────── */
+.btn-theme-toggle {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-input);
+  cursor: pointer;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, border-color 0.2s, transform 0.15s;
+  flex-shrink: 0;
+}
+
+.btn-theme-toggle:hover {
+  background: var(--bg-input-focus);
+  border-color: var(--border-mid);
+  transform: rotate(20deg);
+}
+
 .btn-small {
   padding: 5px 12px;
   border-radius: 999px;
@@ -201,6 +223,12 @@
 
 .cats-input::placeholder {
   color: var(--text-ghost);
+}
+
+/* Por las dudas que haya un select en categorías en el futuro */
+.cats-input option {
+  background-color: #1a1a28;
+  color: #f5f3ef;
 }
 
 .cats-actions {

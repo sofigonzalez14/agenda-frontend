@@ -5,13 +5,20 @@
   --bg-base: #0d0d14;
   --bg-surface: #111120;
   --bg-raised: #16161f;
+  --bg-card: #16161f;
+  --bg-input: #1a1a28;
+  --bg-input-focus: #1f1f30;
   --border: #2a2a3a;
   --border-hover: #3a3a50;
+  --border-subtle: #1e1e2e;
+  --border-mid: #2a2a3a;
 
   --text-primary: #f5f3ef;
   --text-body: #c8c6d8;
-  --text-muted: #4a4a60;
-  --text-faint: #3a3a50;
+  /* Aclarados respecto al original para que sean legibles sobre fondos oscuros */
+  --text-muted: #8888a8;
+  --text-faint: #606080;
+  --text-ghost: #505068;
 
   --accent-orange: #ff6b35;
   --accent-pink: #ff3cac;
@@ -21,6 +28,15 @@
 
   --gradient-main: linear-gradient(90deg, #ff6b35, #ff3cac);
   --gradient-panel: linear-gradient(120deg, #ff6b35, #ff3cac);
+  --gradient-form: linear-gradient(135deg, #1a1a30 0%, #23142a 100%);
+
+  /* Fondos y bordes para estados semánticos */
+  --bg-green: #0d2018;
+  --border-green: #1e3d28;
+  --bg-red: #2a0d0d;
+  --border-red: #3a1a1a;
+  --bg-yellow: #241a08;
+  --border-yellow: #3a2a10;
 
   --chip-bg: #1a1a26;
   --chip-text: #6b6b80;
@@ -45,13 +61,19 @@ html.light {
   --bg-base: #f5f4f0;
   --bg-surface: #ffffff;
   --bg-raised: #f9f8f6;
+  --bg-card: #ffffff;
+  --bg-input: #eeecea;
+  --bg-input-focus: #f4f2ef;
   --border: #e2e0da;
   --border-hover: #c8c5bc;
+  --border-subtle: #e8e6e0;
+  --border-mid: #d0cdc6;
 
   --text-primary: #111018;
   --text-body: #3a3840;
-  --text-muted: #9896a0;
-  --text-faint: #b8b6c0;
+  --text-muted: #7a7880;
+  --text-faint: #a0a0a8;
+  --text-ghost: #bbbac4;
 
   --accent-orange: #e85d20;
   --accent-pink: #d4248e;
@@ -61,6 +83,15 @@ html.light {
 
   --gradient-main: linear-gradient(90deg, #e85d20, #d4248e);
   --gradient-panel: linear-gradient(120deg, #e85d20, #d4248e);
+  --gradient-form: linear-gradient(135deg, #e85d20 0%, #d4248e 100%);
+
+  /* Fondos y bordes para estados semánticos */
+  --bg-green: #e8f5ee;
+  --border-green: #a8d8b8;
+  --bg-red: #fdecea;
+  --border-red: #f5b8b2;
+  --bg-yellow: #fef3e2;
+  --border-yellow: #f5d898;
 
   --chip-bg: #eeece8;
   --chip-text: #6b6870;

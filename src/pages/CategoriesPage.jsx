@@ -6,9 +6,11 @@ import {
   deleteCategory,
 } from '../api/categories';
 import { getColorForCategory } from '../api/categoryColor';
+import { useTheme } from '../hooks/Usetheme';
 import '../styles/CategoriesPage.css';
 
 function CategoriesPage({ goBack }) {
+  const { theme, toggleTheme } = useTheme();
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -101,9 +103,14 @@ function CategoriesPage({ goBack }) {
               Organizá tus tareas en grupos como Estudio, Trabajo, Personal...
             </p>
           </div>
-          <button className="btn-outline" onClick={goBack}>
-            ← Volver a tareas
-          </button>
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+            <button className="btn-theme-toggle" onClick={toggleTheme} title="Cambiar tema">
+              {theme === 'dark' ? '☀️' : '🌙'}
+            </button>
+            <button className="btn-outline" onClick={goBack}>
+              ← Volver a tareas
+            </button>
+          </div>
         </header>
 
         {/* ── Formulario ── */}
@@ -155,11 +162,11 @@ function CategoriesPage({ goBack }) {
           )}
 
           {loading ? (
-            <p style={{ color: '#3a3a50', fontSize: '13px' }}>
+            <p style={{ color: 'var(--text-faint)', fontSize: '13px' }}>
               Cargando categorías...
             </p>
           ) : categories.length === 0 ? (
-            <p style={{ color: '#3a3a50', fontSize: '13px' }}>
+            <p style={{ color: 'var(--text-faint)', fontSize: '13px' }}>
               No tenés categorías todavía.
             </p>
           ) : (

@@ -2,6 +2,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { getTasks, createTask, deleteTask, updateTask } from '../api/tasks';
 import { getCategories } from '../api/categories';
 import { getColorForCategory } from '../api/categoryColor';
+import { useTheme } from '../hooks/Usetheme';
 import '../styles/taskPage.css';
 
 function getInitials(name) {
@@ -15,6 +16,7 @@ function getInitials(name) {
 
 
 function TasksPage({ user, onLogout, goToCategories }) {
+  const { theme, toggleTheme } = useTheme();
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [newTitle, setNewTitle] = useState('');
@@ -161,6 +163,10 @@ function TasksPage({ user, onLogout, goToCategories }) {
           </div>
 
           <div className="tasks-header-buttons">
+            {/* Toggle dark / light */}
+            <button className="btn-theme-toggle" onClick={toggleTheme} title="Cambiar tema">
+              {theme === 'dark' ? '☀️' : '🌙'}
+            </button>
 
             <button className="btn-secondary" onClick={goToCategories}>
               Categorías
@@ -250,6 +256,16 @@ function TasksPage({ user, onLogout, goToCategories }) {
                 </label>
 
                 <label className="tasks-label">
+                  Descripción
+                  <textarea
+                    value={newDescription}
+                    onChange={(e) => setNewDescription(e.target.value)}
+                    className="tasks-input tasks-textarea"
+                    placeholder="Detalles opcionales..."
+                  />
+                </label>
+
+                <label className="tasks-label">
                   Prioridad
                   <div className="tasks-priority-row">
                     {prioridades.map((p) => (
@@ -324,9 +340,9 @@ function TasksPage({ user, onLogout, goToCategories }) {
             )}
 
             {loading ? (
-              <p style={{ color: '#3a3a50', fontSize: '13px' }}>Cargando tareas...</p>
+              <p style={{ color: 'var(--text-faint)', fontSize: '13px' }}>Cargando tareas...</p>
             ) : tasks.length === 0 ? (
-              <p style={{ color: '#3a3a50', fontSize: '13px' }}>No hay tareas todavía.</p>
+              <p style={{ color: 'var(--text-faint)', fontSize: '13px' }}>No hay tareas todavía.</p>
             ) : (
               <ul className="tasks-list">
                 {filteredTasks.map((task) => {
